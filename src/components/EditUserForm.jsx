@@ -1,14 +1,23 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 
-const AddUserForm = (props) => {
+const EditUserForm = (props) => {
 
-    const {register, handleSubmit, formState : { errors }} = useForm();
+    console.log(props.currentUser)
+
+    const {register, handleSubmit, formState : { errors }, setValue} = useForm({
+        defaultValues: props.currentUser
+    });
+
+    setValue('name', props.currentUser.name);
+    setValue('username', props.currentUser.username);
 
     const onSubmit = (data,e) =>{
-       // console.log(data)
+       console.log(data)
+
+       data.id = props.currentUser.id
         
-        props.addUser(data)
+       props.updateUser(props.currentUser.id, data)
 
         //Limpiar los campos
         e.target.reset()
@@ -32,10 +41,10 @@ const AddUserForm = (props) => {
             <div>
                 {errors?.username?.message}
             </div>
-            <button>Add new user</button>
+            <button>Edit user</button>
         </form>
 
     );
 }
  
-export default AddUserForm;
+export default EditUserForm;
